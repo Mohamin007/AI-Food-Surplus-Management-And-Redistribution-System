@@ -1,3 +1,13 @@
+<p align="center">
+  <img src="SMART_banner.png" alt="SMART - Surplus Management and Redistribution Technology" width="100%">
+</p>
+
+<h1 align="center">🧠 SMART</h1>
+
+<p align="center">
+  <strong>Surplus Management and Redistribution Technology</strong>
+</p>
+
 # 🧠 SMART
 
 ## Surplus Management and Redistribution Technology
