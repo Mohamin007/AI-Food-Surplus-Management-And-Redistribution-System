@@ -1,5 +1,7 @@
+from functools import lru_cache
 import pandas as pd
 import pydeck as pdk
+import requests
 
 
 KITCHEN_LOCATION = {
@@ -15,9 +17,36 @@ PRIORITY_COLORS = {
 }
 
 
+@lru_cache(maxsize=128)
+def fetch_osrm_route(waypoints_tuple):
+    """
+    Fetch road driving route from public OSRM for given (lon, lat) waypoints.
+    
+    Returns:
+        tuple: (coordinates_list, road_distance_km or None)
+        Gracefully returns fallback straight line if network/OSRM fails.
+    """
+    coords_str = ";".join(f"{lon:.6f},{lat:.6f}" for lon, lat in waypoints_tuple)
+    url = f"https://router.project-osrm.org/route/v1/driving/{coords_str}?overview=full&geometries=geojson"
+    try:
+        resp = requests.get(url, timeout=3)
+        if resp.status_code == 200:
+            data = resp.json()
+            if data.get("code") == "Ok" and data.get("routes"):
+                route = data["routes"][0]
+                coords = route.get("geometry", {}).get("coordinates", [])
+                distance_km = round(route.get("distance", 0) / 1000.0, 1)
+                if coords:
+                    return coords, distance_km
+    except Exception:
+        pass
+    # Fallback to straight line connecting waypoints
+    return [list(pt) for pt in waypoints_tuple], None
+
+
 def build_route_map(redistribution_plan):
     """
-    Build an interactive PyDeck map showing kitchen, recipients, and route.
+    Build an interactive PyDeck map showing kitchen, recipients, and road route.
     
     Args:
         redistribution_plan: DataFrame with recipient locations and allocations
@@ -46,13 +75,16 @@ def build_route_map(redistribution_plan):
         ]
     )
 
-    route_path = [
-        [KITCHEN_LOCATION["longitude"], KITCHEN_LOCATION["latitude"]],
-        *[
-            [row["longitude"], row["latitude"]]
+    waypoints = (
+        (KITCHEN_LOCATION["longitude"], KITCHEN_LOCATION["latitude"]),
+        *(
+            (float(row["longitude"]), float(row["latitude"]))
             for _, row in recipient_points.iterrows()
-        ],
-    ]
+        ),
+    )
+
+    # Road-following route via OSRM, with straight-line fallback
+    route_path, road_distance_km = fetch_osrm_route(waypoints)
 
     layers = [
         pdk.Layer(

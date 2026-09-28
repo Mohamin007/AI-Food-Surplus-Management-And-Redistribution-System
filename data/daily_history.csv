@@ -90,3 +90,4 @@ date,predicted_demand,actual_production,actual_consumption,surplus_quantity,holi
 2026-09-24,1126,1194,1126,68,0,0,Cloudy,No Rain
 2026-09-25,994,1033,981,52,0,0,Sunny,No precipitation
 2026-09-26,1203,1292,1194,98,1,0,Rainy,Light Rain
+2026-09-27,1085,1133,1086,47,0,0,Sunny,No precipitation

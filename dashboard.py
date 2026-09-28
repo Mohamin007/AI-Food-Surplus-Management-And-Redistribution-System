@@ -2149,7 +2149,7 @@ elif active_section == "Recipient Matching":
         st.subheader("Map / route plan")
         with st.container(border=True):
             st.pydeck_chart(build_route_map(redistribution_plan), width="stretch")
-            st.caption("The map shows the planned dispatch sequence and recipient locations; it is not road-network navigation.")
+            st.caption("The map shows the road-network driving route and recipient locations.")
 
     if target_batches:
         with st.container(border=True):
