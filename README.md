@@ -589,7 +589,7 @@ AI-Powered Smart Food Waste Reduction and Sustainable Redistribution Ecosystem f
 
 # 👨‍💻 Developed By
 
-## 🌈 **M O H A M I N   M I R**
+## 👤🎆 **M O H A M I N                                    M I R**
 
 ### **Mohamin Mir**
 
