@@ -1,188 +1,600 @@
-<p align="center">
-	<img src="diagrams/SMAR_logo.png" alt="SMAR System logo" width="220">
-</p>
+# 🧠 SMART
 
-# SMAR System (Surplus Management And Redistribution System)
+## Surplus Management and Redistribution Technology
 
-Primary Dev: Mohamad Musadiq (ARQORYN)
+> **AI-Powered Smart Food Waste Reduction and Sustainable Redistribution Ecosystem for Institutional Kitchens and Food Processing Units**
 
-SMAR System (Surplus Management And Redistribution System) is a Streamlit
-prototype for reducing food waste in institutional
-kitchens. It combines demand forecasting with surplus planning, recipient
-matching, and redistribution tracking. The project supports **UN SDG 12:
-Responsible Consumption and Production** and **SDG 13: Climate Action**.
+SMART is an intelligent food surplus management system designed to help institutional kitchens make better production decisions, reduce avoidable food waste, manage surplus inventory, and connect available surplus with suitable recipient organizations.
 
-## What It Does
+### Core Workflow
 
-For a selected kitchen scenario, the dashboard:
+**Predict → Prevent → Detect → Match → Redistribute → Measure**
 
-1. Predicts daily meal demand from historical kitchen operations.
-2. Allocates predicted demand to individual menu items using consumption shares.
-3. Compares predicted demand with planned production and recommends adjustments.
-4. Estimates surplus and waste risk per item.
-5. Matches surplus to active recipients based on priority, need, capacity, and distance.
-6. Builds a route order and records the redistribution plan on a map.
-7. Tracks operational surplus inventory with expiry status.
-8. Records end-of-day actuals per item and creates inventory batches automatically.
-9. Summarizes delivered meals, recipients served, and estimated avoided CO₂e.
+---
 
-The application is designed for one kitchen and uses local CSV files. It is a
-working prototype rather than a production logistics or emissions accounting system.
+## 🌍 The Problem
 
-## Map and Routing
+Institutional kitchens often prepare food based on estimated demand rather than actual expected consumption.
 
-The dashboard includes a recipient-matching and route-planning view that visualizes surplus redistribution on a map. It plots the kitchen location together with eligible recipients, then orders the route by urgency, current need, and shorter travel distance. The map highlights how many meals each recipient receives and summarizes the total route distance for the planned redistribution.
+When demand is lower than production:
 
-This route planning layer is intended as a lightweight operational aid for a single kitchen scenario; it does not optimize full road-network mileage or vehicle routing.
+```text
+Overproduction
+      ↓
+Unused Food
+      ↓
+Surplus
+      ↓
+Spoilage / Waste
+      ↓
+Economic + Environmental Loss
+````
 
-## Screenshots and Diagrams
+At the same time, organizations such as community kitchens, food banks, shelters, and other recipient groups may have unmet food requirements.
 
-### System Architecture
-![System Architecture](diagrams/system_architecture.drawio.png)
+The challenge is therefore not only redistributing food after it becomes surplus, but also reducing unnecessary production before surplus occurs.
 
-### Dashboard Mockup
-![Dashboard Mockup](diagrams/dashboard_mockup.png)
+---
 
-## Technology
+# 💡 Our Solution
 
-- Python 3.10+
-- Streamlit for the interactive dashboard
-- Pandas and NumPy for data handling
-- scikit-learn Ridge regression with one-hot encoded categorical features
-- Joblib for cached model artifacts
-- Altair and Matplotlib for charts
-- PyDeck for interactive route maps
+SMART combines:
 
-## Setup
+* Machine Learning
+* Demand Forecasting
+* Production Planning
+* Raw Ingredient Inventory
+* Surplus Inventory
+* Recipient Matching
+* Redistribution
+* Impact Analytics
 
-From the project root, create or activate a virtual environment and install the
-dependencies:
+into one operational system for kitchen administrators.
 
-```powershell
+Instead of treating food waste only as an end-of-day problem, SMART attempts to intervene throughout the food production cycle.
+
+```text
+             ┌──────────────────┐
+             │  Demand Forecast │
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Production Plan  │
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │  Food Production │
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Surplus Detection│
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Surplus Inventory│
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Recipient Match  │
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Redistribution   │
+             └────────┬─────────┘
+                      ↓
+             ┌──────────────────┐
+             │ Impact Analytics │
+             └──────────────────┘
+```
+
+---
+
+# 🚀 Key Features
+
+## 🤖 AI Demand Prediction
+
+SMART uses a machine-learning model to estimate expected daily food demand using operational and contextual factors such as:
+
+* Day of the week
+* Holiday status
+* Special events
+* Weather conditions
+* Precipitation
+
+The predicted demand becomes the foundation for production planning.
+
+---
+
+## 🍚 Item-Level Production Planning
+
+SMART predicts overall daily demand and distributes the requirement across selected menu items using historical consumption patterns.
+
+Current menu items:
+
+* Chai
+* Rice with Chicken
+* Rice with Tomato
+* Rice with Dal
+
+The system maintains reconciliation between the overall prediction and item-level production quantities.
+
+---
+
+## 📦 Surplus Inventory
+
+Positive surplus generated at the end of production can be added to the surplus inventory.
+
+Each surplus batch contains:
+
+* Inventory ID
+* Date added
+* Menu item
+* Original quantity
+* Remaining quantity
+* Expiry date
+* Status
+
+Surplus is treated as managed inventory rather than automatically being classified as waste.
+
+---
+
+## ⏳ Shelf-Life Management
+
+SMART allows administrators to configure the shelf life of prepared food for each menu item.
+
+For example:
+
+```text
+Chai
+Shelf Life = 7 days
+
+Added: 26 September
+Expiry: 3 October
+```
+
+The system automatically calculates expiry dates for surplus batches.
+
+---
+
+# 🥘 Raw Ingredient Inventory
+
+SMART also manages ingredients before food production takes place.
+
+### Current Raw Ingredients
+
+* Tea Leaves
+* Sugar
+* Milk
+* Rice
+* Dal
+* Tomato
+* Chicken
+
+Raw inventory is maintained at batch level with:
+
+* Quantity
+* Unit
+* Date added
+* Expiry
+* Status
+* Batch identification
+
+---
+
+# 🧾 Recipe / BOM Based Capacity
+
+SMART contains a lightweight Bill of Materials (BOM) for the menu items.
+
+### Chai
+
+```text
+Tea Leaves
+Sugar
+Milk
+```
+
+### Rice with Chicken
+
+```text
+Rice
+Chicken
+```
+
+### Rice with Tomato
+
+```text
+Rice
+Tomato
+```
+
+### Rice with Dal
+
+```text
+Rice
+Dal
+```
+
+Using the available raw ingredients, SMART estimates how many servings of each menu item can currently be produced.
+
+This helps identify ingredient bottlenecks before production.
+
+---
+
+# 🔄 FEFO Inventory Handling
+
+Raw ingredients are managed using a **First-Expire, First-Out (FEFO)** approach.
+
+When ingredients are consumed during production, the system prioritizes eligible batches according to expiry.
+
+This helps reduce the possibility of older usable ingredients remaining unused while approaching expiry.
+
+---
+
+# 📝 End-of-Day Operations
+
+After production, the kitchen administrator records:
+
+* Actual production
+* Actual consumption
+
+The system calculates:
+
+```text
+Surplus = Actual Production − Actual Consumption
+```
+
+Only positive surplus is introduced into surplus inventory.
+
+The system also prevents duplicate processing of the same production record.
+
+---
+
+# 🤝 Recipient Matching
+
+When surplus is available, SMART helps the kitchen administrator identify suitable recipients.
+
+Recipients can include:
+
+* Community Kitchens
+* Food Banks
+* Shelters
+* Learning / Community Centres
+
+The system supports multiple allocation strategies.
+
+### Even Distribution
+
+Distributes available surplus across suitable recipients.
+
+### Manual Allocation
+
+Allows the administrator to directly decide quantities.
+
+### Item-wise Allocation
+
+Allows different quantities of individual menu items to be assigned to different recipients.
+
+---
+
+# 🗺️ Recipient Mapping
+
+The Recipient Matching interface provides a geographical view of the kitchen and recipient locations.
+
+Recipient records contain latitude and longitude information, allowing the system to visualize relationships between the kitchen and potential recipients.
+
+The mapping component is designed to support operational dispatch and future road-network routing.
+
+---
+
+# 📊 Impact Analytics
+
+SMART provides an overview of the operational impact generated by the system.
+
+Analytics include:
+
+* Surplus generated
+* Surplus redistributed
+* Remaining surplus
+* Item-level surplus
+* Item-level redistribution
+* Redistribution activity over time
+* Raw ingredient usage
+
+The objective is to provide the kitchen administrator with a measurable view of food-surplus management.
+
+---
+
+# 🔔 Notification Center
+
+SMART provides a centralized notification area for important operational warnings.
+
+Notifications can include:
+
+* Low raw-ingredient stock
+* Unmapped ingredients
+* Expiring raw ingredients
+* Expired inventory
+* Prediction feasibility issues
+
+This keeps important warnings visible without overwhelming the main dashboard.
+
+---
+
+# ⚙️ Configurable Settings
+
+SMART provides configurable operational settings.
+
+### Production Planning
+
+* Baseline preparation window
+* Safety buffer
+
+### Inventory & Expiry
+
+* Expiring-soon threshold
+* Approaching-expiry threshold
+
+### Notifications
+
+* Stock warnings
+* Expiry warnings
+* Prediction feasibility warnings
+
+### Prepared Food
+
+* Shelf life for each menu item
+
+---
+
+# 🧠 Machine Learning Pipeline
+
+The demand prediction system uses historical daily operational data.
+
+### Input Features
+
+```text
+Day of Week
+Holiday
+Special Event
+Weather
+Precipitation
+```
+
+### Prediction Target
+
+```text
+Actual Consumption
+```
+
+The prediction is then used by the production-planning workflow.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                    SMART SYSTEM
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+    Historical Data   Raw Inventory   Operations
+          │              │              │
+          ▼              ▼              ▼
+     ML Prediction     BOM / FEFO     EOD Data
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                Production Planning
+                         │
+                         ▼
+                  Surplus Detection
+                         │
+                         ▼
+                 Surplus Inventory
+                         │
+                         ▼
+                 Recipient Matching
+                         │
+                         ▼
+                  Redistribution
+                         │
+                         ▼
+                  Impact Analytics
+```
+
+---
+
+# 🛠️ Technology Stack
+
+| Technology                   | Purpose                      |
+| ---------------------------- | ---------------------------- |
+| Python                       | Core application logic       |
+| Streamlit                    | Interactive web application  |
+| Pandas                       | Data processing              |
+| Scikit-learn                 | Machine Learning             |
+| Joblib                       | Model persistence            |
+| PyDeck                       | Geographic visualization     |
+| OpenStreetMap-based services | Geographic / routing support |
+| CSV                          | Operational datasets         |
+| JSON                         | Configuration                |
+
+---
+
+# 📁 Project Structure
+
+```text
+AI-Food-Surplus-Management-And-Redistribution-System/
+│
+├── dashboard.py
+│
+├── data/
+│   ├── daily_history.csv
+│   ├── daily_operations.csv
+│   ├── inventory.csv
+│   ├── item_history.csv
+│   ├── kitchen_history.csv
+│   ├── kitchen_settings.json
+│   ├── raw_inventory.csv
+│   ├── redistribution_records.csv
+│   └── surplus_shelf_life.csv
+│
+├── scripts/
+│   └── migrate_menu_data.py
+│
+├── src/
+│   ├── data_preprocessing.py
+│   ├── demand_prediction.py
+│   ├── daily_demand_model.py
+│   ├── inventory.py
+│   ├── kitchen_config.py
+│   ├── maps.py
+│   └── raw_inventory.py
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+# 💻 Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Mohamin007/AI-Food-Surplus-Management-And-Redistribution-System.git
+```
+
+```bash
+cd AI-Food-Surplus-Management-And-Redistribution-System
+```
+
+---
+
+## 2. Create a Virtual Environment
+
+### Windows
+
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
 ```
 
-Start the dashboard with:
+Activate:
 
-```powershell
-python -m streamlit run dashboard.py
+```bash
+.venv\Scripts\activate
 ```
 
-Streamlit will open the application in a browser. Use the **Kitchen Scenario** button
-in the sidebar to configure the operation date, planned production, weather,
-precipitation, holiday/event flags, safety buffer, and selected menu items for the day.
+### Linux / macOS
 
-## Model Behavior
-
-The daily demand model is trained from `data/daily_history.csv`. It uses:
-
-- Day of week
-- Holiday and special-event flags
-- Weather category
-- Precipitation category
-
-The target is `actual_consumption`. On first startup the trained pipeline is
-saved as `daily_demand_model.joblib`; subsequent launches load that file. If the
-artifact is missing, uses an older schema version, or cannot be loaded, it is
-retrained from the history data.
-
-A separate item-level model (`src/demand_prediction.py`) provides
-meal/menu-type granularity when available.
-
-### Item-Level Allocation
-
-Daily predicted demand is allocated to individual menu items using deterministic
-historical consumption shares (`calculate_item_shares` +
-`allocate_daily_to_items` in `src/daily_demand_model.py`). The largest-remainder
-method guarantees integer quantities that sum exactly to the daily total.
-
-### Planned Production & Surplus
-
-Planned production is operational context used after prediction; it is not a
-demand-model feature. Expected surplus:
-
-```text
-max(planned production - predicted demand, 0)
+```bash
+python3 -m venv .venv
 ```
 
-Recommended production = predicted demand × (1 + safety_buffer / 100).
+Activate:
 
-### Surplus Inventory
-
-Positive item-level surplus recorded at End of Day is automatically added to an
-operational inventory (`data/inventory.csv`) with a per-item expiry date derived
-from `data/surplus_shelf_life.csv`. Inventory batches progress through statuses
-Available → Expiring Soon → Expired → Depleted.
-
-### Recipient Matching & Redistribution
-
-Recipient matching considers only rows where `active` is `1`. Higher-priority
-recipients are considered first, followed by current need and shorter distance.
-Allocations are limited by both each recipient's need and capacity. When
-redistributing from inventory, the matched item's batch is decremented
-automatically.
-
-## Data Files
-
-All operational data is stored in [`data/`](./data):
-
-| File | Purpose | Required columns |
-| --- | --- | --- |
-| [`daily_history.csv`](./data/daily_history.csv) | Daily-level training history for the demand model | `date`, `predicted_demand`, `actual_production`, `actual_consumption`, `surplus_quantity`, `holiday`, `special_event`, `weather`, `precipitation` |
-| [`daily_operations.csv`](./data/daily_operations.csv) | Default current scenario and planning context | `date`, `planned_quantity`, `holiday`, `special_event`, `weather`, `precipitation`, `safety_buffer` |
-| [`item_history.csv`](./data/item_history.csv) | Per-item consumption history used for allocation shares | `date`, `menu_item`, `predicted_quantity`, `actual_production`, `actual_consumption`, `surplus_quantity` |
-| [`inventory.csv`](./data/inventory.csv) | Operational surplus batches awaiting redistribution | `inventory_id`, `date_added`, `menu_item`, `original_quantity`, `remaining_quantity`, `expiry_date`, `status` |
-| [`surplus_shelf_life.csv`](./data/surplus_shelf_life.csv) | Demo shelf-life configuration per menu item | `menu_item`, `shelf_life_days` |
-| [`kitchen_history.csv`](./data/kitchen_history.csv) | Meal/menu-level development history | `date`, `meal_type`, `menu_type`, `predicted_demand`, `actual_production`, `actual_consumption`, `surplus_quantity`, `holiday`, `special_event`, `weather`, `precipitation` |
-| [`recipients.csv`](./data/recipients.csv) | Organizations eligible for matching | `recipient_id`, `name`, `type`, `latitude`, `longitude`, `capacity`, `current_need`, `priority`, `distance_km`, `active` |
-| [`redistribution_records.csv`](./data/redistribution_records.csv) | Planned and delivered allocations | `date`, `recipient_id`, `allocated_quantity`, `distance_km`, `status`, `menu_item` |
-
-The development history is synthetic sample data for validating the schema and
-pipeline. It is not a claim about real institutional kitchen behavior.
-
-Weather and precipitation combinations are validated centrally. Supported
-combinations are: Sunny/No precipitation; Cloudy/No Rain, Light Rain, or Heavy
-Rain; Rainy/Light Rain or Heavy Rain; and Snowy/Light Snow or Heavy Snow.
-
-Use `status=Delivered` for completed deliveries. The Impact and analytics tab
-counts delivered records only; newly recorded dashboard plans have status
-`Planned` until the CSV is updated.
-
-## Project Structure
-
-```text
-dashboard.py                   Streamlit application
-src/daily_demand_model.py      Daily demand model, item shares, and allocation
-src/demand_prediction.py       Meal/menu-level model (legacy / supplementary)
-src/data_preprocessing.py      CSV loading, validation, and record persistence
-src/inventory.py               Surplus inventory: expiry, status, and decrements
-src/maps.py                    PyDeck route visualization helpers
-data/                          Local operational datasets (CSV)
-diagrams/                      Architecture and dashboard visuals
-daily_demand_model.joblib      Generated daily model artifact
-demand_model.joblib            Generated meal-level model artifact
+```bash
+source .venv/bin/activate
 ```
 
-## Workflow Sections
+---
 
-The sidebar navigation exposes the following workspace sections:
+## 3. Install Dependencies
 
-1. **Overview / Today** – KPIs, recommendation, demand trend, surplus journey snapshot.
-2. **Demand & Planning** – Model details, production breakdown, scenario controls.
-3. **Recipient Matching** – Item-level plan generation, inventory decrement, route map.
-4. **Surplus Inventory** – Batch view with expiry status, redistribute actions.
-5. **Impact & Analytics** – Period-filtered impact metrics, item-level surplus, CO₂e.
-6. **End of the Day** – Record actual consumption per item; auto-create inventory.
-7. **Settings** – Read-only system information.
+```bash
+pip install -r requirements.txt
+```
 
-## Limitations
+---
 
-- The prototype uses a local CSV store and has no authentication or multi-kitchen support.
-- The current kitchen history is synthetic development data and should be replaced with verified operational observations before production use.
-- Item allocation shares use historical averages and do not account for day-of-week item preferences.
-- Route ordering is priority-based; it is not a road-network optimization.
-- The avoided-emissions figure uses a simple estimate of `0.5 kg CO₂e` per redistributed meal; actual impact varies by food type and lifecycle.
-- Shelf-life values in `surplus_shelf_life.csv` are prototype defaults and not food-safety guidance.
-- Adding actual historical outcomes requires appending a complete, non-duplicate observation; the model retrains automatically when the data fingerprint changes.
+## 4. Run SMART
+
+```bash
+streamlit run dashboard.py
+```
+
+The application will open in your browser.
+
+---
+
+# 📌 Prototype Scope
+
+SMART is currently developed as a **prototype for the Smart India Hackathon 2026 problem statement**.
+
+The system demonstrates the operational concept from demand prediction through surplus management and redistribution.
+
+Some datasets, recipes, environmental-impact factors, safety buffers, shelf-life values, and operational thresholds are prototype assumptions and should be replaced with validated institutional data before real-world deployment.
+
+---
+
+# 🔮 Future Scope
+
+Potential future improvements include:
+
+* Larger real-world training datasets
+* Continuous model retraining
+* Improved demand forecasting
+* Multi-kitchen deployment
+* Advanced route optimization
+* Real-time recipient availability
+* Automated dispatch planning
+* Mobile support
+* Authentication and role-based access
+* Integration with institutional kitchen systems
+* Real-time monitoring
+* Advanced impact measurement
+* Integration with institutional food-management systems
+
+---
+
+# 🎯 Project Vision
+
+SMART aims to shift food-waste management from a **reactive process** to a **predictive and preventive system**.
+
+Instead of asking:
+
+> **"What do we do with the food we already wasted?"**
+
+SMART aims to help kitchens ask:
+
+> **"How much food do we actually need, how much should we prepare, and what should we do with the surplus that remains?"**
+
+---
+
+# 🏆 Smart India Hackathon 2026
+
+**Problem Statement:**
+AI-Powered Smart Food Waste Reduction and Sustainable Redistribution Ecosystem for Institutional Kitchens and Food Processing Units
+
+**Problem Statement ID:** `26234`
+
+**Organization:** Ministry of Food Processing Industries (MoFPI)
+
+**Category:** Software
+
+**Theme:** Agriculture, FoodTech & Rural Development
+
+---
+
+# 👨‍💻 Developed By
+
+## 🌈 **M O H A M I N   M I R**
+
+### **Mohamin Mir**
+
+**Data Science & AI**
+**University of Kashmir**
+
+---
+
+<div align="center">
+
+## 🧠 SMART
+
+### Surplus Management and Redistribution Technology
+
+**Predict • Prevent • Detect • Match • Redistribute • Measure**
+
+</div>
+```
